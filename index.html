@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef2ff">
+  <meta name="description" content="AutoBook 1.0.2 — turn PDF files into booklet-ready print layouts directly in your browser.">
+  <title>AutoBook 1.0.2 — PDF to Booklet Maker</title>
+  <link rel="icon" type="image/png" sizes="64x64" href="./assets/icons/favicon-64.png">
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <button class="brand brand-button" id="homeNav" aria-label="Go to AutoBook home"><img src="./assets/icons/icon-192.png" alt="AutoBook AB icon"><span class="brand-text"><strong>District AutoApps Family</strong><span>PDF tools made simple</span></span></button>
+  </header>
+  <main>
+    <section id="homeScreen" class="home-screen">
+      <div class="home-hero">
+        <button type="button" class="home-discover-toggle" id="openApps">▦ Discover other SFD OneApps!</button><button type="button" class="home-theme-toggle" id="homeThemeToggle">🌙 Dark mode</button>
+        <img class="hero-logo" src="./assets/autobook-hero.png" alt="AutoBook — PDF to Booklet Maker">
+        <p class="hero-copy">Turn any PDF into a booklet-ready print layout.</p>
+        <p class="home-subcopy">Simple booklet printing, right in your browser. Your files stay on your device.</p>
+        <button id="startBooklet" class="primary start-button"><span class="start-title">Print Your New Booklet <span>→</span></span><small>Create your next big booklet</small></button>
+      </div>
+      <div class="home-actions">
+        <button class="home-action changelog-action" id="openChangelog"><span class="action-icon">↻</span><span><strong>View Changelog</strong><small>See what's new in AutoBook</small></span><span class="action-arrow">›</span></button>
+        <button class="home-action about-action" id="openAbout"><span class="action-icon">ⓘ</span><span><strong>About AutoBook</strong><small>Learn about the app and its team</small></span><span class="action-arrow">›</span></button>
+      </div>
+      <div class="report-card"><a class="report-button" href="mailto:sfdistrict.deped@gmail.com?subject=AutoBook%20Bug%20Report%20or%20Suggestion">✉ Report a Bug / Send a Suggestion</a><p>For suggestions &amp; bug reports, please email us at <a href="mailto:sfdistrict.deped@gmail.com">sfdistrict.deped@gmail.com</a>.</p></div>
+    </section>
+    <div id="appVersion" class="app-version">AutoBook · Version 1.0.2</div>
+
+    <section id="makerScreen" class="maker-screen hidden">
+      <header class="booklet-toolbar" aria-label="Booklet setup toolbar">
+        <button type="button" class="toolbar-home" id="toolbarHome">← Home</button>
+        <div class="toolbar-brand"><img src="./assets/icons/icon-192.png" alt=""><div><strong>Booklet Setup</strong><span>Prepare your PDF for booklet printing</span></div></div>
+        <div class="toolbar-actions">
+          <button type="button" class="toolbar-icon theme-toggle" id="themeToggle" title="Switch color theme" aria-label="Switch color theme">🌙 Dark mode</button>
+          <button type="button" class="toolbar-icon" id="undoBtn" title="Undo settings (Ctrl+Z)" aria-label="Undo" disabled>↶</button>
+          <button type="button" class="toolbar-icon" id="redoBtn" title="Redo settings (Ctrl+Y)" aria-label="Redo" disabled>↷</button>
+          <button type="button" class="toolbar-icon" id="helpBtn" title="Help and keyboard shortcuts" aria-label="Help">?</button>
+        </div>
+      </header>
+      <div class="setup-intro"><h1>Your New Booklet Starts Here</h1><p>Follow each step, check the sheet preview, then export your print-ready PDF.</p><div class="privacy-note"><span class="shield">✓</span> Your files stay on your device. No upload, no account, no backend.</div></div>
+      <section class="workspace" aria-label="Booklet maker">
+        <details class="panel workflow-panel upload-panel" id="uploadStep" open>
+          <summary class="workflow-summary"><span class="step-number">1</span><span><strong>Choose your PDF</strong><small>Upload the document you want to print as a booklet.</small></span><span class="summary-chevron">⌄</span></summary>
+          <div class="workflow-content">
+            <label id="dropzone" class="dropzone" for="pdfFile"><span class="upload-symbol">↑</span><strong>Drop a PDF here</strong><span>or click to browse your device</span><small>PDF files only · up to 150 MB</small></label>
+            <input id="pdfFile" type="file" accept="application/pdf,.pdf" hidden>
+            <div id="uploadedPdfCard" class="uploaded-pdf-card hidden"><div class="pdf-thumb"><canvas id="pdfThumbnailCanvas" aria-label="First page thumbnail of uploaded PDF"></canvas><span class="pdf-thumb-badge">PDF</span><strong id="pdfThumbPages">—</strong></div><div class="uploaded-pdf-meta"><strong id="uploadedPdfName">Uploaded PDF</strong><span id="fileInfoText"></span><small>Your document is ready for booklet setup.</small></div></div>
+            <div class="upload-actions hidden" id="uploadActions"><button type="button" id="removeUploadedPdf" class="secondary">Remove Uploaded PDF</button><button type="button" id="proceedSettings" class="primary">Proceed to Booklet Settings →</button></div>
+            <div id="error" class="error hidden" role="alert"></div>
+          </div>
+        </details>
+        <details class="panel workflow-panel settings-panel locked-step" id="settingsStep">
+          <summary class="workflow-summary"><span class="step-number">2</span><span><strong>Booklet settings</strong><small>Choose paper, page size, orientation, binding, and output color.</small></span><span class="summary-chevron">⌄</span></summary>
+          <div class="workflow-content">
+            <div class="settings-grid">
+              <label>Physical sheet size<select id="sheetSize"><option value="A4" selected>A4 — 210 × 297 mm</option><option value="A3">A3 — 297 × 420 mm</option><option value="Letter">Letter — 215.9 × 279.4 mm</option><option value="Legal">Legal — 215.9 × 355.6 mm</option><option value="custom">Custom size…</option></select></label>
+              <label>Finished page size<select id="pageSize"><option value="A5" selected>A5 — 148 × 210 mm</option><option value="A6">A6 — 105 × 148 mm</option><option value="A4">A4 — 210 × 297 mm</option><option value="Letter">Half Letter — 139.7 × 215.9 mm</option><option value="custom">Custom size…</option></select></label>
+              <label>Sheet orientation<select id="orientation"><option value="landscape" selected>Landscape</option><option value="portrait">Portrait</option></select></label>
+              <label>Binding direction<select id="binding"><option value="ltr" selected>Left to right</option><option value="rtl">Right to left</option></select></label>
+              <label>Page scaling<select id="scaling"><option value="fit" selected>Fit proportionally</option><option value="actual">Actual size (centered)</option></select></label>
+              <label>Print color<select id="colorMode"><option value="color" selected>Colored</option><option value="grayscale">Grayscale</option></select></label>
+              <label>Center gutter (mm)<input id="gutter" type="number" min="0" max="30" step="0.5" value="4"></label>
+              <label>Outer margin (mm)<input id="margin" type="number" min="0" max="30" step="0.5" value="6"></label>
+              <label class="wide-field">Source page range <input id="pageRange" type="text" value="all" placeholder="all or 1-3, 5, 8-10" autocomplete="off"><small>Use “all” or a comma-separated list such as 1-3, 5, 8-10.</small></label>
+              <label class="wide-field">Insert blank pages after source pages <input id="blankAfterPages" type="text" value="" placeholder="Optional, e.g. 2, 6"><small>Blank pages are inserted after the listed selected source pages, before booklet imposition.</small></label>
+            </div>
+            <div id="customFields" class="custom-fields hidden"><label>Sheet width (mm)<input id="sheetW" type="number" min="50" max="1000" value="297"></label><label>Sheet height (mm)<input id="sheetH" type="number" min="50" max="1000" value="210"></label><label>Finished page width (mm)<input id="pageW" type="number" min="30" max="500" value="148"></label><label>Finished page height (mm)<input id="pageH" type="number" min="30" max="500" value="210"></label></div>
+            <div class="button-row"><button type="button" id="proceedNumbering" class="primary">Proceed to Page Numbering &amp; Borders →</button></div>
+            <p class="fine-print">Booklet output uses two pages per side. The page count is padded to a multiple of four when needed.</p>
+          </div>
+        </details>
+        <details class="panel workflow-panel numbering-panel locked-step" id="numberingStep">
+          <summary class="workflow-summary"><span class="step-number">3</span><span><strong>Page Numbering &amp; Border Design</strong><small>Customize numbering and decorative page borders before generating.</small></span><span class="summary-chevron">⌄</span></summary>
+          <div class="workflow-content">
+            <div class="settings-grid">
+              <label>Page numbering<select id="numberingEnabled"><option value="off" selected>Off</option><option value="on">On</option></select></label>
+              <label>Start numbering at source page<input id="numberStartPage" type="number" min="1" value="1"></label>
+              <label>Numbering placement<select id="numberPlacement"><option value="bottom-center" selected>Bottom centre</option><option value="top-center">Top centre</option><option value="top-left">Top left</option><option value="top-right">Top right</option><option value="bottom-left">Bottom left</option><option value="bottom-right">Bottom right</option></select></label>
+              <label>Number font<select id="numberFont"><option value="Helvetica" selected>Helvetica — clean</option><option value="TimesRoman">Times Roman — classic</option><option value="Courier">Courier — typewriter</option><option value="HelveticaBold">Helvetica Bold — strong</option><option value="TimesRomanBold">Times Roman Bold</option></select></label>
+              <label>Number font size<select id="numberSize"><option value="8">8 pt — small</option><option value="10" selected>10 pt — standard</option><option value="12">12 pt — medium</option><option value="14">14 pt — large</option><option value="16">16 pt — extra large</option></select></label>
+              <label>Page border design<select id="borderStyle"><option value="none" selected>None</option><option value="box">Simple box</option><option value="double">Double-line box</option><option value="dashed">Dashed box</option><option value="dotted">Dotted box</option><option value="corners">Decorative corner marks</option><option value="hearts">Heart border (♥)</option><option value="smileys">Smiley border (☺)</option></select></label>
+              <label>Border thickness<select id="borderThickness"><option value="0.5">Fine</option><option value="1" selected>Standard</option><option value="1.5">Bold</option><option value="2">Extra bold</option></select></label>
+              <label>Border inset (mm)<input id="borderInset" type="number" min="2" max="25" value="5" step="1"></label>
+            </div>
+            <div class="button-row"><button id="generate" class="primary" disabled>Generate booklet PDF →</button><button id="resetSettings" class="secondary">Reset Settings</button><button id="reset" class="secondary">Clear PDF</button></div>
+            <p class="fine-print">Numbering starts on the source page you choose; that page is labelled 1, and earlier pages remain unnumbered. Borders and numbers are placed on each finished page in the booklet.</p>
+          </div>
+        </details>
+        <details id="results" class="panel workflow-panel results-panel hidden locked-step">
+          <summary class="workflow-summary"><span class="step-number">4</span><span><strong>Preview &amp; Export</strong><small>Review the imposed sheets before printing.</small></span><span class="summary-chevron">⌄</span></summary>
+          <div class="workflow-content">
+            <div class="stats"><div><span>Source pages</span><strong id="statPages">—</strong></div><div><span>Output sheets</span><strong id="statSheets">—</strong></div><div><span>Blank pages added</span><strong id="statBlanks">—</strong></div></div>
+            <div class="preview-toolbar"><button type="button" id="testSheetBtn" class="secondary">Print Test Sheet</button><label>Preview sheet <select id="previewSheet"></select></label><span id="sideLabel">Front side</span><div class="side-buttons"><button id="frontBtn" class="mini active">Front</button><button id="backBtn" class="mini">Back</button></div></div>
+            <div class="sheet-preview-wrap"><canvas id="previewCanvas" aria-label="Imposed sheet preview"></canvas></div><div id="printNote" class="print-note"></div>
+            <div class="print-menu-wrap print-menu-bottom"><button type="button" class="proceed-print" id="proceedPrintBtn">Proceed to Print ▾</button></div>
+          </div>
+        </details>
+      </section>
+    </section>
+    <footer class="district-footer"><img class="district-logo" src="./assets/district-logo.png" alt="San Fernando District logo"><span>2026 San Fernando District ICT and ISM Innovation.</span></footer>
+  </main>
+
+  <div id="infoOverlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <section class="info-modal">
+      <div class="modal-heading"><h2 id="modalTitle">About AutoBook</h2><button id="closeModal" class="close-modal" aria-label="Close">×</button></div>
+      <div id="modalContent" class="modal-content"></div>
+    </section>
+  </div>
+  <div id="helpOverlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><section class="info-modal help-modal"><div class="modal-heading"><h2 id="helpTitle">Booklet setup help</h2><button id="closeHelp" class="close-modal" aria-label="Close help">×</button></div><div class="modal-content"><p><strong>1. Choose your PDF.</strong> Select or drag in a PDF file.</p><p><strong>2. Set up your booklet.</strong> Choose physical sheet size, finished page size, orientation, binding direction, scaling, gutter, and margins.</p><p><strong>3. Add page numbering and borders.</strong> Optional page numbers and decorative borders are applied before booklet generation.</p><p><strong>4. Preview and export.</strong> Check both front and back sides for a few sheets. Booklets need page counts divisible by four; AutoBook adds blank pages when required.</p><p><strong>Print tips:</strong> Print double-sided at Actual Size / 100%. Test a few pages first and verify the printer's duplex flip-edge setting. Select the correct paper size in the print dialog.</p><hr><p><strong>Page selection:</strong> In Booklet Settings, enter “all” or ranges such as 1-3, 5, 8-10. You can also insert blank pages after selected source pages.</p><p><strong>Remembered preferences:</strong> Your setup preferences are saved locally in this browser and can be reset with Reset Settings.</p><p><strong>Print Test Sheet:</strong> Use the test sheet to verify scale, orientation, margins, and duplex direction before printing a full booklet.</p><p><strong>Keyboard shortcuts</strong></p><p>Ctrl/⌘ + Z — Undo settings</p><p>Ctrl/⌘ + Y — Redo settings</p><p>Esc — Close help</p><p class="fine-print">Undo/Redo applies to booklet setup settings. Uploaded files and generated PDFs are not part of the history.</p></div></section></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "id": "/autobook/",
+  "name": "AutoBook — PDF to Booklet Maker",
+  "short_name": "AutoBook",
+  "description": "AutoBook 1.0.2 — create booklet-ready print PDFs locally with page ranges, blank-page insertion, customizable numbering and borders.",
+  "start_url": "/autobook/",
+  "scope": "/autobook/",
+  "display": "standalone",
+  "background_color": "#eef2ff",
+  "theme_color": "#10295c",
+  "icons": [
+    {
+      "src": "./assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
