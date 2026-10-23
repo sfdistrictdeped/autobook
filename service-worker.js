@@ -1,5 +1,5 @@
 const CACHE_PREFIX = "autobook-";
-const CACHE_NAME = "autobook-1.0.2-discover-app-icons";
+const CACHE_NAME = "autobook-1.0.2-discover-autotarp-only";
 const APP_SHELL = [
   "./",
   "./index.html",

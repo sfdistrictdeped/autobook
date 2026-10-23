@@ -575,6 +575,7 @@ body.dark-mode .workflow-content select {
 body.dark-mode .home-discover-toggle{background:#22263a;color:#f0efff;border-color:#3b4261}
 .apps-intro{margin-bottom:18px!important;color:var(--muted,#777c9b)}
 .apps-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.apps-grid.single-app{grid-template-columns:minmax(0,360px);justify-content:center}
 .app-card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;padding:16px;border:1px solid #e2e6f4;border-radius:17px;background:#fff;color:#29245f;text-decoration:none;transition:transform .15s,box-shadow .15s,border-color .15s}
 .app-card:hover{transform:translateY(-2px);border-color:#c8c3ff;box-shadow:0 8px 22px #26245e12}
 .app-card strong{font-size:16px;color:#29245f!important}.app-card>span:not(.app-card-icon){font-size:12px;line-height:1.5;color:#6e7694}.app-card em{font-style:normal;font-weight:800;font-size:12px;color:#4f46e5;margin-top:auto;padding-top:3px}.app-card-icon-img{display:block;width:58px;height:58px;flex:0 0 58px;object-fit:cover;border-radius:15px;box-shadow:0 2px 5px #15172612}.current-app{background:#f7f6ff;border-color:#c9c2ff}.apps-footer{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;border-top:1px solid #e5e7f2;margin-top:20px;padding-top:17px;font-size:12px;color:#5d6686}.apps-footer span{font-size:12px;color:#858aa5}
